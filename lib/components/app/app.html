@@ -1,12 +1,23 @@
 <dom-module id="main-app">
-    <link rel="import" type="text/css" href="app.css">
+    <link rel="import" type="css" href="app.css">
     <template>
-        <input-component id="taskId"></input-component><button on-click="getData">Get data</button>
+
+        <div class="input-container">
+            <input-component id="taskId" value="1" validator="{{validators.numberValidator}}" on-inputchange="updateTaskIdValid"
+                             validation-title="Only numbers are allowed"></input-component>
+
+            <button class="btn waves-effect waves-light get-button" on-click="getData" disabled$="{{!isTaskIdValid}}">Get data</button>
+        </div>
 
         <template is="dom-repeat" items="{{task.assignee}}">
-            <div><input type="text" value="{{item.fullName}}"></div>
+            <div>
+                <input-component value="{{item.fullName}}" on-inputchange="changeAssignee" validator="{{validators.fullName}}"
+                                 validation-title="Enter Name and Surname"></input-component>
+            </div>
         </template>
 
-        <button on-click="updateData">Update</button>
+        <div>
+            <button class="btn waves-effect waves-light" on-click="updateData" disabled$="{{!isTaskModified}}">Update</button>
+        </div>
     </template>
 </dom-module>

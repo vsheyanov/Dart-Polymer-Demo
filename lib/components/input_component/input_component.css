@@ -1,0 +1,15 @@
+:host{
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+.invalidIcon{
+    padding: 0px 3px;
+    color: red;
+    cursor: default;
+
+    position: absolute;
+    right: 0;
+    top: 16px;
+}

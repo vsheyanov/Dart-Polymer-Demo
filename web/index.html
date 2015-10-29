@@ -6,14 +6,20 @@
     <title>Demo application for Wrike</title>
     <script src="packages/web_components/webcomponents-lite.min.js"></script>
     <script src="packages/web_components/dart_support.js"></script>
-   <!-- <link rel="stylesheet" href="packages/wrike_demo/components/app/app.css">-->
+
+    <link rel="stylesheet" href="css/materialize.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <h1>Demo application for Wrike</h1>
     </header>
 
-    <main-app></main-app>
+    <div class="row">
+        <div class="col s12">
+            <main-app></main-app>
+        </div>
+    </div>
 
     <script type="application/dart" src="index.dart"></script>
     <script src="packages/browser/dart.js"></script>

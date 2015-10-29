@@ -12,9 +12,34 @@ class InputComponent extends PolymerElement{
   factory InputComponent() => new Element.tag('input-component');
   InputComponent.created() : super.created();
 
+  @property
+  String validationTitle = "";
+
+  @property
+  bool isValid = true;
+
+  @property
+  var validator;
+
   @reflectable
-  String get value{
-    return $['input'].value;
+  String value;
+
+  @property
+  String validStyle = "visibility: hidden";
+
+  @reflectable
+  void validate(KeyboardEvent e, target){
+   if (validator != null){
+     isValid = validator(e.target.value);
+     set('isValid', isValid);
+
+     validStyle = "visibility: ${!isValid ? 'visible' : 'hidden'}";
+     set('validStyle', validStyle);
+   }
+
+   value = e.target.value;
+
+    fire("inputchange", detail: this);
   }
 }
 
