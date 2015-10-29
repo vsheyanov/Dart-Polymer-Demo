@@ -2,5 +2,11 @@
     <link rel="import" type="text/css" href="app.css">
     <template>
         <input-component id="taskId"></input-component><button on-click="getData">Get data</button>
+
+        <ul>
+            <template is="dom-repeat" items="{{task.assignee}}">
+                <li>{{item.fullName}}</li>
+            </template>
+        </ul>
     </template>
 </dom-module>

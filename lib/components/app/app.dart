@@ -10,18 +10,25 @@ import 'package:wrike_demo/components/input_component/input_component.dart';
 
 import 'package:wrike_demo/model/service/MockService.dart';
 
+import 'package:wrike_demo/model/vo/task.dart';
+
 
 @PolymerRegister('main-app')
 class MainApp extends PolymerElement{
 
   MockService _dataService = new MockService();
 
+  @reflectable
+  Task task = null;
+
   factory MainApp() => new Element.tag('main-app');
   MainApp.created() : super.created();
 
   @reflectable
   getData(e, target) async{
-    print(await _dataService.getTask($['taskId'].value) );
+    task = await _dataService.getTask($['taskId'].value);
+
+    set('task', task);
   }
 }
 
