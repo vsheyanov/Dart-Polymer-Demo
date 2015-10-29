@@ -12,5 +12,9 @@ class InputComponent extends PolymerElement{
   factory InputComponent() => new Element.tag('input-component');
   InputComponent.created() : super.created();
 
+  @reflectable
+  String get value{
+    return $['input'].value;
+  }
 }
 
