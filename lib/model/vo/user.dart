@@ -15,4 +15,9 @@ class User extends Object with JsProxy{
   String get fullName => '$firstName $lastName';
 
   User (this.firstName, this.lastName);
+
+  Map toJson() => {
+    'firstName' : firstName,
+    'lastName' : lastName
+  };
 }

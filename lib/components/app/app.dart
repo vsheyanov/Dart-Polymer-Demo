@@ -4,7 +4,7 @@ library demo.wrike.component.mainapp;
 import 'package:polymer/polymer.dart';
 import 'package:web_components/web_components.dart' show HtmlImport;
 import 'dart:html';
-import 'dart:js';
+import 'dart:convert';
 
 import 'package:wrike_demo/components/input_component/input_component.dart';
 
@@ -29,6 +29,19 @@ class MainApp extends PolymerElement{
     task = await _dataService.getTask($['taskId'].value);
 
     set('task', task);
+  }
+
+  @reflectable
+  updateData(e, target) {
+    print(JSON.encode(task));
+
+    HttpRequest.postFormData('/send', {'task' : JSON.encode(task)})
+        .then((_){
+
+        })
+        .catchError((_){
+          window.alert('Error happened');
+        });
   }
 }
 

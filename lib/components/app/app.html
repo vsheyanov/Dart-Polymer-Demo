@@ -3,10 +3,10 @@
     <template>
         <input-component id="taskId"></input-component><button on-click="getData">Get data</button>
 
-        <ul>
-            <template is="dom-repeat" items="{{task.assignee}}">
-                <li>{{item.fullName}}</li>
-            </template>
-        </ul>
+        <template is="dom-repeat" items="{{task.assignee}}">
+            <div><input type="text" value="{{item.fullName}}"></div>
+        </template>
+
+        <button on-click="updateData">Update</button>
     </template>
 </dom-module>

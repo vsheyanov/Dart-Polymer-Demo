@@ -13,4 +13,9 @@ class Task extends Object with JsProxy{
   List<User> assignee;
 
   Task (this.id, this. assignee);
+
+  Map toJson() => {
+    'id' : id,
+    'assignee' : assignee
+  };
 }
