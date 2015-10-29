@@ -6,6 +6,8 @@ import 'package:web_components/web_components.dart' show HtmlImport;
 import 'dart:html';
 import 'dart:js';
 
+import 'package:wrike_demo/components/input_component/input_component.dart';
+
 @PolymerRegister('main-app')
 class MainApp extends PolymerElement{
 
