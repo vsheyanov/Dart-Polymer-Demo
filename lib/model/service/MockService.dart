@@ -7,9 +7,19 @@ import 'package:wrike_demo/model/vo/task.dart';
 
 class MockService {
 
+  static final MockService _instance = new MockService._internal();
+
+  MockService._internal (){
+    initMockdata();
+  }
+
+  factory MockService(){
+    return _instance;
+  }
+
   Map<String, Task> _tasks = new Map();
 
-  MockService () {
+  initMockdata () {
     _addMockTask(
       new Task("1",
         [
@@ -44,7 +54,7 @@ class MockService {
     _tasks[task.id] = task;
   }
 
-  Future getTask(String id){
-
+  Future getTask(String id) async{
+    return await _tasks[id];
   }
 }
