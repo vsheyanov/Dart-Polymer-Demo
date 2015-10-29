@@ -10,4 +10,6 @@ class User extends Object with JsProxy{
 
   @reflectable
   String lastName;
+
+  User (this.firstName, this.lastName);
 }
