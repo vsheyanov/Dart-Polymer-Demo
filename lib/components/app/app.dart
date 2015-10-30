@@ -24,11 +24,15 @@ class MainApp extends PolymerElement{
     "numberValidator" : numberValidator
   };
 
+  bool _isTaskModified = false;
+
+  bool _allAssigneesValid = true;
+
   @property
   bool isTaskIdValid = true;
 
   @property
-  bool isTaskModified = false;
+  bool isValidForUpdate = false;
 
   @reflectable
   Task task = null;
@@ -39,14 +43,28 @@ class MainApp extends PolymerElement{
 
   /////////////// getters / setters start ///////////////
 
-  void _setTaskModified (value){
-    isTaskModified = value;
-    set('isTaskModified', value);
-  }
-
   void _setTask (value){
     task = value;
     set('task', task);
+  }
+
+  void _setAllAssigneesValid (value){
+    _allAssigneesValid = value;
+
+    _setIsValidForUpdate();
+  }
+
+
+
+  void _setIsTaskModified(value){
+    _isTaskModified = value;
+
+    _setIsValidForUpdate();
+  }
+
+  void _setIsValidForUpdate(){
+    isValidForUpdate = _isTaskModified && _allAssigneesValid;
+    set('isValidForUpdate', isValidForUpdate);
   }
   /////////////// getters / setters end ///////////////
 
@@ -54,7 +72,8 @@ class MainApp extends PolymerElement{
   ///////////// private methods start /////////////////
 
   _getData() async{
-    _setTaskModified(false);
+    _setIsTaskModified(false);
+    _setAllAssigneesValid(true);
 
     _dataService.getTask($['taskId'].value).then((task){
       _setTask(task);
@@ -77,20 +96,26 @@ class MainApp extends PolymerElement{
 
   @reflectable
   void changeAssignee (e, [_]){
-    _setTaskModified(true);
+    _isTaskModified = true;
+    _setIsValidForUpdate();
 
     var model = new DomRepeatModel.fromEvent(e);
 
     model.set('item.fullName', e.target.value);
+
+    var allValid = true;
+    List components = querySelectorAll(".assignees");
+    components.forEach((component){
+      if (!component.isValid)
+        allValid = false;
+    });
+
+    _setAllAssigneesValid(allValid);
   }
 
   @reflectable
   updateData(e, target) {
-    _setTaskModified(false);
-
-    void onError(){
-
-    }
+    _setIsTaskModified(false);
 
     _dataService.updateTask(task)
         .catchError((_){

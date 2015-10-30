@@ -11,13 +11,13 @@
 
         <template is="dom-repeat" items="{{task.assignee}}">
             <div>
-                <input-component value="{{item.fullName}}" on-input="changeAssignee" validator="{{validators.fullName}}"
+                <input-component class="assignees" value="{{item.fullName}}" on-input="changeAssignee" validator="{{validators.fullName}}"
                                  validation-title="Enter Name and Surname"></input-component>
             </div>
         </template>
 
         <div>
-            <button class="btn waves-effect waves-light" on-click="updateData" disabled$="{{!isTaskModified}}">Update</button>
+            <button class="btn waves-effect waves-light" on-click="updateData" disabled$="{{!isValidForUpdate}}">Update</button>
         </div>
     </template>
 </dom-module>
