@@ -182,7 +182,7 @@ class MainApp extends PolymerElement{
     var i = 0;
     List components = querySelectorAll(".assignees");
     components.forEach((component){
-      task.assignee[i].fullName = component.value;
+      task.assignee[i].fullName = component.value.trim();
       i++;
     });
 
@@ -203,13 +203,13 @@ class MainApp extends PolymerElement{
   @reflectable
   static bool fullNameValidator(String value){
     RegExp regexp = new RegExp("^[a-zA-z]*\\s[a-zA-z]*\$");
-    return regexp.firstMatch(value) != null;
+    return regexp.firstMatch(value.trim()) != null;
   }
 
   @reflectable
   static bool numberValidator(String value){
     RegExp regexp = new RegExp("^[0-9]*\$");
-    return regexp.firstMatch(value) != null;
+    return regexp.firstMatch(value.trim()) != null;
   }
   //////////////// validators end /////////////////
 

@@ -32,6 +32,8 @@ class MockService {
   }
 
   Future getTask(String id) async{
+    id = id.trim();
+
     if (_cache[id] != null)
       return _cache[id];
 
