@@ -36,7 +36,7 @@ class MainApp extends PolymerElement{
   bool isAssigneesExist = false;
 
   @property
-  bool isTaskIdValid = true;
+  bool isTaskIdValid = false;
 
   @property
   bool isTaskValidForUpdate = false;
@@ -208,6 +208,9 @@ class MainApp extends PolymerElement{
 
   @reflectable
   static bool numberValidator(String value){
+    if (value == null || value.trim() == "")
+      return false;
+
     RegExp regexp = new RegExp("^[0-9]*\$");
     return regexp.firstMatch(value.trim()) != null;
   }
