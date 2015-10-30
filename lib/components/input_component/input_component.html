@@ -1,7 +1,7 @@
 <dom-module id="input-component">
     <link rel="import" type="css" href="input_component.css">
     <template>
-        <input type="text"  on-keyup="validate" value="{{value}}">
+        <input type="text" value="{{value::input}}">
             <span title$="[[validationTitle]]" class="invalidIcon" style$="{{validStyle}}">*</span>
     </template>
 </dom-module>

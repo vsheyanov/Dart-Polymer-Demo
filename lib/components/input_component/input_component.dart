@@ -21,25 +21,25 @@ class InputComponent extends PolymerElement{
   @property
   var validator;
 
-  @reflectable
+  @Property(observer: 'valueChanged')
   String value;
 
   @property
   String validStyle = "visibility: hidden";
 
   @reflectable
-  void validate(KeyboardEvent e, target){
-   if (validator != null){
-     isValid = validator(e.target.value);
-     set('isValid', isValid);
+  void valueChanged(String newValue, String oldValue){
+    _validate(newValue);
+  }
 
-     validStyle = "visibility: ${!isValid ? 'visible' : 'hidden'}";
-     set('validStyle', validStyle);
-   }
+  void _validate(String newValue){
+    if (validator != null){
+      isValid = validator(newValue);
+      set('isValid', isValid);
 
-   value = e.target.value;
-
-    fire("inputchange", detail: this);
+      validStyle = "visibility: ${!isValid ? 'visible' : 'hidden'}";
+      set('validStyle', validStyle);
+    }
   }
 }
 

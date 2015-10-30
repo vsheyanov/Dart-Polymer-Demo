@@ -25,7 +25,6 @@ class Task extends Object with JsProxy{
     obj['assignee'].forEach((userObj) => assignee.add(new User.fromJson(userObj)));
   }
 
-  //TODO automate
   Map toJson() => {
     'id' : id,
     'assignee' : assignee

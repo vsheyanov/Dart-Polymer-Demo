@@ -3,7 +3,7 @@
     <template>
 
         <div class="input-container">
-            <input-component id="taskId" value="1" validator="{{validators.numberValidator}}" on-inputchange="updateTaskIdValid"
+            <input-component id="taskId" value="1" validator="{{validators.numberValidator}}" on-input="updateTaskIdValid"
                              validation-title="Only numbers are allowed"></input-component>
 
             <button class="btn waves-effect waves-light get-button" on-click="getData" disabled$="{{!isTaskIdValid}}">Get data</button>
@@ -11,7 +11,7 @@
 
         <template is="dom-repeat" items="{{task.assignee}}">
             <div>
-                <input-component value="{{item.fullName}}" on-inputchange="changeAssignee" validator="{{validators.fullName}}"
+                <input-component value="{{item.fullName}}" on-input="changeAssignee" validator="{{validators.fullName}}"
                                  validation-title="Enter Name and Surname"></input-component>
             </div>
         </template>

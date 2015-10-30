@@ -71,7 +71,7 @@ class MainApp extends PolymerElement{
 
   @reflectable
   void updateTaskIdValid(e, target){
-    isTaskIdValid = target.isValid;
+    isTaskIdValid = e.currentTarget.isValid;
     set('isTaskIdValid', isTaskIdValid);
   }
 
@@ -79,7 +79,7 @@ class MainApp extends PolymerElement{
   void changeAssignee (e, [_]){
     _setTaskModified(true);
 
-    var model = new DomRepeatModel.fromEvent(e.original);
+    var model = new DomRepeatModel.fromEvent(e);
 
     model.set('item.fullName', e.target.value);
   }

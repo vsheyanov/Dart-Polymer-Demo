@@ -29,7 +29,6 @@ class User extends Object with JsProxy{
     this.lastName = userObj['lastName'];
   }
 
-  //TODO automate
   Map toJson() => {
     'firstName' : firstName,
     'lastName' : lastName
