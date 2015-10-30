@@ -16,9 +16,9 @@
             </div>
         </template>
 
-        <div>
+        <div hidden$="{{!isAssigneesExist}}">
             <button class="btn waves-effect waves-light" on-click="updateData" disabled$="{{!isTaskValidForUpdate}}">Update</button>
-            <button class="btn waves-effect waves-light" on-click="updateShuffle" disabled="{{!isAssigneesExist}}">{{shuffleLabel}}</button>
+            <button class="btn waves-effect waves-light" on-click="updateShuffle" disabled$="{{!isAssigneesExist}}">{{shuffleLabel}}</button>
         </div>
     </template>
 </dom-module>
