@@ -48,6 +48,7 @@ class MockService {
     return HttpRequest.postFormData('http://putsreq.com/pzYWFpFfZaOxac7CRV6t', {'task' : jsonData})
         .then((result){
           if (result.response == "error"){
+            _cache.remove(task.id);
             return new Future.error("Error happened");
           } else {
             _cache[task.id] = task;
