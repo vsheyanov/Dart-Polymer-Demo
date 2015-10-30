@@ -9,7 +9,7 @@
             <button class="btn waves-effect waves-light get-button" on-click="getData" disabled$="{{!isTaskIdValid}}">Get data</button>
         </div>
 
-        <template is="dom-repeat" items="{{task.assignee}}">
+        <template is="dom-repeat" id="assignees" items="{{task.assignee}}">
             <div>
                 <input-component class="assignees" value="{{item.fullName}}" on-input="changeAssignee" validator="{{validators.fullName}}"
                                  validation-title="Enter Name and Surname"></input-component>
@@ -17,7 +17,7 @@
         </template>
 
         <div>
-            <button class="btn waves-effect waves-light" on-click="updateData" disabled$="{{!isValidForUpdate}}">Update</button>
+            <button class="btn waves-effect waves-light" on-click="updateData" disabled$="{{!isTaskValidForUpdate}}">Update</button>
         </div>
     </template>
 </dom-module>

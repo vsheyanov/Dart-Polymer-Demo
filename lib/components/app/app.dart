@@ -4,7 +4,6 @@ library demo.wrike.component.mainapp;
 import 'package:polymer/polymer.dart';
 import 'package:web_components/web_components.dart' show HtmlImport;
 import 'dart:html';
-import 'dart:convert';
 
 import 'package:wrike_demo/components/input_component/input_component.dart';
 
@@ -32,9 +31,9 @@ class MainApp extends PolymerElement{
   bool isTaskIdValid = true;
 
   @property
-  bool isValidForUpdate = false;
+  bool isTaskValidForUpdate = false;
 
-  @reflectable
+  @property
   Task task = null;
 
   factory MainApp() => new Element.tag('main-app');
@@ -44,6 +43,11 @@ class MainApp extends PolymerElement{
   /////////////// getters / setters start ///////////////
 
   void _setTask (value){
+    if (task == value){
+      //handle case when selected Object is taken from cache
+      set('task', null);
+      $['assignees'].render();
+    }
     task = value;
     set('task', task);
   }
@@ -63,8 +67,8 @@ class MainApp extends PolymerElement{
   }
 
   void _setIsValidForUpdate(){
-    isValidForUpdate = _isTaskModified && _allAssigneesValid;
-    set('isValidForUpdate', isValidForUpdate);
+    isTaskValidForUpdate = _isTaskModified && _allAssigneesValid;
+    set('isTaskValidForUpdate', isTaskValidForUpdate);
   }
   /////////////// getters / setters end ///////////////
 
@@ -80,7 +84,18 @@ class MainApp extends PolymerElement{
     });
   }
 
-  ///////////// private methods start /////////////////
+  void _validateAssingees(){
+    var allValid = true;
+    List components = querySelectorAll(".assignees");
+    components.forEach((component){
+      if (!component.isValid)
+        allValid = false;
+    });
+
+    _setAllAssigneesValid(allValid);
+  }
+
+  ///////////// private methods end /////////////////
 
   ///////////// event handlers start //////////////////
   @reflectable
@@ -96,26 +111,25 @@ class MainApp extends PolymerElement{
 
   @reflectable
   void changeAssignee (e, [_]){
-    _isTaskModified = true;
-    _setIsValidForUpdate();
+    _setIsTaskModified(true);
 
-    var model = new DomRepeatModel.fromEvent(e);
-
-    model.set('item.fullName', e.target.value);
-
-    var allValid = true;
-    List components = querySelectorAll(".assignees");
-    components.forEach((component){
-      if (!component.isValid)
-        allValid = false;
-    });
-
-    _setAllAssigneesValid(allValid);
+    _validateAssingees();
   }
 
+  /**
+   * Data is saved in objects only on update not to override values
+   * stored in cache
+   */
   @reflectable
   updateData(e, target) {
     _setIsTaskModified(false);
+
+    var i = 0;
+    List components = querySelectorAll(".assignees");
+    components.forEach((component){
+      task.assignee[i].fullName = component.value;
+      i++;
+    });
 
     _dataService.updateTask(task)
         .catchError((_){

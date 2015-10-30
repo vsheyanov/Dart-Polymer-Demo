@@ -27,6 +27,8 @@ class MockService {
 
     return HttpRequest.postFormData('http://putsreq.com/3YzUAy7UnEjZenzpcusM', {'taskId': id})
         .then((result){
+            print("Data received from the server: ${result.response}");
+
             var task = new Task.fromJson(JSON.decode(result.response));
 
             _cache[task.id] = task;
@@ -39,7 +41,11 @@ class MockService {
 
   Future updateTask(Task task) {
 
-    return HttpRequest.postFormData('http://putsreq.com/pzYWFpFfZaOxac7CRV6t', {'task' : JSON.encode(task)})
+    var jsonData = JSON.encode(task);
+
+    print("Data sent to server: $jsonData");
+
+    return HttpRequest.postFormData('http://putsreq.com/pzYWFpFfZaOxac7CRV6t', {'task' : jsonData})
         .then((result){
           if (result.response == "error"){
             return new Future.error("Error happened");
