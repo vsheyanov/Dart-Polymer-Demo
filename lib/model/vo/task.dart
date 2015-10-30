@@ -7,26 +7,23 @@ import 'package:wrike_demo/model/vo/user.dart';
 
 import 'dart:convert' show JSON;
 
-class Task extends Object with JsProxy{
+class Task extends Object with JsProxy {
   @reflectable
   String id;
 
   @reflectable
   List<User> assignee;
 
-  Task (this.id, this.assignee);
+  Task(this.id, this.assignee);
 
-  Task.fromJson(obj){
-    if (obj == null)
-      return;
+  Task.fromJson(obj) {
+    if (obj == null) return;
 
     id = obj['id'];
     assignee = new List<User>();
-    obj['assignee'].forEach((userObj) => assignee.add(new User.fromJson(userObj)));
+    obj['assignee']
+        .forEach((userObj) => assignee.add(new User.fromJson(userObj)));
   }
 
-  Map toJson() => {
-    'id' : id,
-    'assignee' : assignee
-  };
+  Map toJson() => {'id': id, 'assignee': assignee};
 }

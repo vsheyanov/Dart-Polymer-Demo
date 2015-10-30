@@ -3,8 +3,7 @@ library demo.wrike.model.vo.user;
 import 'package:polymer/polymer_micro.dart';
 import 'package:polymer/polymer.dart';
 
-class User extends Object with JsProxy{
-
+class User extends Object with JsProxy {
   @reflectable
   String firstName;
 
@@ -15,22 +14,19 @@ class User extends Object with JsProxy{
   String get fullName => '$firstName $lastName';
 
   @reflectable
-  void set fullName (String value){
+  void set fullName(String value) {
     var names = value.split(' ');
 
     firstName = names[0];
     lastName = names[1];
   }
 
-  User (this.firstName, this.lastName);
+  User(this.firstName, this.lastName);
 
-  User.fromJson(userObj){
+  User.fromJson(userObj) {
     this.firstName = userObj['firstName'];
     this.lastName = userObj['lastName'];
   }
 
-  Map toJson() => {
-    'firstName' : firstName,
-    'lastName' : lastName
-  };
+  Map toJson() => {'firstName': firstName, 'lastName': lastName};
 }

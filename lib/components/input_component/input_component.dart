@@ -7,8 +7,7 @@ import 'package:web_components/web_components.dart' show HtmlImport;
 import 'dart:html';
 
 @PolymerRegister('input-component')
-class InputComponent extends PolymerElement{
-
+class InputComponent extends PolymerElement {
   factory InputComponent() => new Element.tag('input-component');
   InputComponent.created() : super.created();
 
@@ -28,12 +27,12 @@ class InputComponent extends PolymerElement{
   String validStyle = "visibility: hidden";
 
   @reflectable
-  void valueChanged(String newValue, String oldValue){
+  void valueChanged(String newValue, String oldValue) {
     _validate(newValue);
   }
 
-  void _validate(String newValue){
-    if (validator != null){
+  void _validate(String newValue) {
+    if (validator != null) {
       isValid = validator(newValue);
       set('isValid', isValid);
 
@@ -43,9 +42,8 @@ class InputComponent extends PolymerElement{
   }
 
   @reflectable
-  void setValue(value){
+  void setValue(value) {
     value = value;
     set("value", value);
   }
 }
-
