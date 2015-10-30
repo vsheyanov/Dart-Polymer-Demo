@@ -4,6 +4,7 @@ library demo.wrike.component.mainapp;
 import 'package:polymer/polymer.dart';
 import 'package:web_components/web_components.dart' show HtmlImport;
 import 'dart:html';
+import 'dart:async';
 
 import 'package:wrike_demo/components/input_component/input_component.dart';
 
@@ -23,9 +24,16 @@ class MainApp extends PolymerElement{
     "numberValidator" : numberValidator
   };
 
+  final SHUFFLE_TIME = const Duration(seconds: 1);
+
   bool _isTaskModified = false;
 
   bool _allAssigneesValid = true;
+
+  Timer _shuffleTimer = null;
+
+  @property
+  bool isAssigneesExist = false;
 
   @property
   bool isTaskIdValid = true;
@@ -35,6 +43,9 @@ class MainApp extends PolymerElement{
 
   @property
   Task task = null;
+
+  @property
+  String shuffleLabel = "Do shuffle";
 
   factory MainApp() => new Element.tag('main-app');
   MainApp.created() : super.created();
@@ -50,6 +61,10 @@ class MainApp extends PolymerElement{
     }
     task = value;
     set('task', task);
+
+    if (task.assignee != null && task.assignee.length > 0){
+      _setIsAssigneesExist(true);
+    }
   }
 
   void _setAllAssigneesValid (value){
@@ -58,7 +73,10 @@ class MainApp extends PolymerElement{
     _setIsValidForUpdate();
   }
 
-
+  void _setIsAssigneesExist(value){
+    isAssigneesExist = value;
+    set('isAssigneesExist', isAssigneesExist);
+  }
 
   void _setIsTaskModified(value){
     _isTaskModified = value;
@@ -70,14 +88,49 @@ class MainApp extends PolymerElement{
     isTaskValidForUpdate = _isTaskModified && _allAssigneesValid;
     set('isTaskValidForUpdate', isTaskValidForUpdate);
   }
+
+  void _setShuffleTimerLabel(value){
+    shuffleLabel = value;
+    set('shuffleLabel', shuffleLabel);
+  }
   /////////////// getters / setters end ///////////////
 
 
   ///////////// private methods start /////////////////
 
+  _toggleShuffleTimer (){
+    _shuffleTimer == null ? _startTimer() : _stopTimer();
+  }
+
+  _onTimerTick(Timer timer){
+    querySelectorAll(".assignees").forEach((component){
+      component.setValue(_dataService.getRandomName());
+    });
+    _setIsTaskModified(true);
+  }
+
+  _startTimer(){
+    _shuffleTimer = new Timer.periodic(SHUFFLE_TIME, _onTimerTick);
+
+    _setShuffleTimerLabel("Cancel shuffle");
+  }
+
+  _stopTimer(){
+    if (_shuffleTimer == null)
+      return;
+
+    _shuffleTimer.cancel();
+    _shuffleTimer = null;
+
+    _setShuffleTimerLabel("Do shuffle");
+  }
+
   _getData() async{
     _setIsTaskModified(false);
     _setAllAssigneesValid(true);
+    _setIsAssigneesExist(false);
+
+    _stopTimer();
 
     _dataService.getTask($['taskId'].value).then((task){
       _setTask(task);
@@ -124,6 +177,8 @@ class MainApp extends PolymerElement{
   updateData(e, target) {
     _setIsTaskModified(false);
 
+    _stopTimer();
+
     var i = 0;
     List components = querySelectorAll(".assignees");
     components.forEach((component){
@@ -136,6 +191,11 @@ class MainApp extends PolymerElement{
           _getData();
           window.alert('Error happened');
         });
+  }
+
+  @reflectable
+  void updateShuffle(e, target){
+    _toggleShuffleTimer();
   }
   ///////////// event handlers end //////////////////
 

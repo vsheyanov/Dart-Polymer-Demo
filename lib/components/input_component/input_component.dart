@@ -41,5 +41,11 @@ class InputComponent extends PolymerElement{
       set('validStyle', validStyle);
     }
   }
+
+  @reflectable
+  void setValue(value){
+    value = value;
+    set("value", value);
+  }
 }
 

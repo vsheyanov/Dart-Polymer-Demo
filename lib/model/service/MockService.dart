@@ -17,8 +17,18 @@ class MockService {
 
   Map<String, dynamic> _cache = new Map();
 
+  static final _names = [
+    "Victor Ivanov", "Ivan Petrov", "Alina Mihailova", "Katya Oficerova",
+    "Michail Gorbachev", "Vladimir Lenin", "Angela Merkel"
+  ];
+
   factory MockService(){
     return _instance;
+  }
+
+  String getRandomName(){
+    _names.shuffle();
+    return _names[0];
   }
 
   Future getTask(String id) async{
